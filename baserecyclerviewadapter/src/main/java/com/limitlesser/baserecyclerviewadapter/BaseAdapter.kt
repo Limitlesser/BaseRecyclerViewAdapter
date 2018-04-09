@@ -9,7 +9,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
-
+/**
+ *  通用的recyclerView adapter 继承于ListAdapter 自动实现数据变化时的item动画
+ *  无需重写onBindViewHolder等方法即可实现数据的绑定
+ */
 class BaseAdapter<D>(diffCallback: DiffUtil.ItemCallback<D>) : ListAdapter<D, RecyclerView.ViewHolder>(diffCallback) {
 
     private var types = mutableListOf<(D) -> Boolean>()
@@ -21,6 +24,14 @@ class BaseAdapter<D>(diffCallback: DiffUtil.ItemCallback<D>) : ListAdapter<D, Re
     val extras = ArrayMap<String, Any>()
 
 
+    /**
+     * 指定adapter的item与viewHolder
+     * @param itemRes itemView对应layout资源
+     * @param holder 创建viewHolder
+     * @param onBind 绑定数据
+     * @param onItemClick item点击处理
+     * @param type 类型判断
+     */
     @Suppress("UNCHECKED_CAST")
     fun <VH : RecyclerView.ViewHolder> item(itemRes: Int, holder: (View) -> VH,
                                             onBind: VH.(D, Int) -> Unit,
@@ -30,6 +41,14 @@ class BaseAdapter<D>(diffCallback: DiffUtil.ItemCallback<D>) : ListAdapter<D, Re
                 holder, onBind, onItemClick, type)
     }
 
+    /**
+     * 指定adapter的item与viewHolder
+     * @param itemView 创建itemView
+     * @param holder 创建viewHolder
+     * @param onBind 绑定数据
+     * @param onItemClick item点击处理
+     * @param type 类型判断
+     */
     @Suppress("UNCHECKED_CAST")
     fun <VH : RecyclerView.ViewHolder> item(itemView: (ViewGroup) -> View,
                                             holder: (View) -> VH,
@@ -69,7 +88,11 @@ class BaseAdapter<D>(diffCallback: DiffUtil.ItemCallback<D>) : ListAdapter<D, Re
 }
 
 
-/** 创建一个BaseAdapter 默认自动设置为recyclerView的adapter */
+/**
+ *  创建一个BaseAdapter 默认自动设置为recyclerView的adapter
+ *  @param diffCallback 处理数据变化的diffCallback
+ *  @param attachToRecyclerView 是否设置为recyclerView的adapter
+ */
 inline fun <D> RecyclerView.baseAdapter(diffCallback: DiffUtil.ItemCallback<D> = DiffItemCallback(), attachToRecyclerView: Boolean = true,
                                         init: BaseAdapter<D>.() -> Unit): BaseAdapter<D> {
     val adapter = BaseAdapter(diffCallback)
