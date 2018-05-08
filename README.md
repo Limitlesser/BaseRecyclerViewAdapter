@@ -41,13 +41,9 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.ViewHolder>() {
 ```Java
 val adapter = baseAdapter<String> {
                 item(R.layout.list_item,
-                        holder = {
-                            object : RecyclerView.ViewHolder(it) {
-                                val text = itemView.text
-                            }
-                        },
+                        holder = ::ViewHolder,
                         onBind = { data, _ ->
-                            text.text = data
+                            itemView.text.text = data
                         },
                         onItemClick = { data, _ -> Toast.makeText(this@MainActivity, data, Toast.LENGTH_SHORT).show() })
             }
