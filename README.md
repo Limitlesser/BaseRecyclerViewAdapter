@@ -4,7 +4,7 @@
 
 recyclerView在Android开发中几乎是必不可少的展示列表的控件，而使用recyclerView必须要定义adapter，一个最基本的adapter往往是这样的：
 
-```Java
+```kotlin
 class ListAdapter : RecyclerView.Adapter<ListAdapter.ViewHolder>() {
 
     val data = mutableListOf<String>()
@@ -38,7 +38,7 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.ViewHolder>() {
 }
 ```
 可以看到上面那么多代码大部分是模板代码，真正关乎业务逻辑的部分很少。而一个adapter最主要的作用就是将数据与RecyclerView绑定，我们关心的东西应该是这样的：
-```Java
+```kotlin
 val adapter = baseAdapter<String> {
                 item(R.layout.list_item,
                         holder = ::ViewHolder,
